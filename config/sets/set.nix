@@ -2,8 +2,7 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   options = {
     set.enable = lib.mkEnableOption "Enable set module";
   };
@@ -12,6 +11,7 @@
       # Enable relative line numbers
       number = true;
       relativenumber = true;
+      clipboard = "unnamedplus";
 
       # Set tabs to 2 spaces
       tabstop = 2;
@@ -68,7 +68,7 @@
       signcolumn = "yes";
 
       # Enable cursor line highlight
-      cursorline = false; # Highlight the line where the cursor is located
+      cursorline = true; # Highlight the line where the cursor is located
 
       # Set fold settings
       # These options were reccommended by nvim-ufo
@@ -84,7 +84,7 @@
       scrolloff = 8;
 
       # Place a column line
-      colorcolumn = "80";
+      # colorcolumn = "80";
 
       # Reduce which-key timeout
       timeoutlen = 200;
@@ -96,7 +96,7 @@
       # Change cursor options
       guicursor = [
         "n-v-c:block" # Normal, visual, command-line: block cursor
-        "i-ci-ve:block" # Insert, command-line insert, visual-exclude: vertical bar cursor with block cursor, use "ver25" for 25% width
+        "i-ci-ve:ver25" # Insert, command-line insert, visual-exclude: vertical bar cursor with block cursor, use "ver25" for 25% width
         "r-cr:hor20" # Replace, command-line replace: horizontal bar cursor with 20% height
         "o:hor50" # Operator-pending: horizontal bar cursor with 50% height
         "a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor" # All modes: blinking settings
@@ -105,7 +105,7 @@
 
       # Enable chars list
       list = true; # Show invisible characters (tabs, eol, ...)
-      listchars = "eol:↲,tab:|->,lead:·,space: ,trail:•,extends:→,precedes:←,nbsp:␣";
+      # listchars = "eol:↲,tab:|->,lead:·,space: ,trail:•,extends:→,precedes:←,nbsp:␣";
 
       # More space in the neovim command line for displaying messages
       cmdheight = 2;
@@ -122,28 +122,47 @@
       laststatus = 3; # (https://neovim.io/doc/user/options.html#'laststatus')
 
       inccommand = "split"; # (https://neovim.io/doc/user/options.html#'inccommand')
+
+      # Affects word-based motions like 'w','e','b', treats a word like "foo-bar" one word
+      iskeyword = "@,48-57,_,192-255,-";
+
+      # Change how nvim fill blank spaces and UI dividers
+      fillchars = {
+        eob = " ";
+        fold = "·";
+        foldopen = "▼";
+        foldclose = "▶";
+        vert = "│";
+      };
     };
 
+    # creates undodir on ~/.local/state/nvim
     extraConfigLua = ''
-      local opt = vim.opt
-      local g = vim.g
-      local o = vim.o
-        -- Neovide
-      if g.neovide then
-        g.neovide_fullscreen = false
-        g.neovide_hide_mouse_when_typing = false
-        g.neovide_refresh_rate = 165
-        g.neovide_cursor_vfx_mode = "ripple"
-        g.neovide_cursor_animate_command_line = true
-        g.neovide_cursor_animate_in_insert_mode = true
-        g.neovide_cursor_vfx_particle_lifetime = 5.0
-        g.neovide_cursor_vfx_particle_density = 14.0
-        g.neovide_cursor_vfx_particle_speed = 12.0
-        g.neovide_transparency = 0.8
-
-        -- Neovide Fonts
-        o.guifont = "JetBrainsMono Nerd Font:h14:Medium:i"
+      local undodir = vim.fn.stdpath("state") .. "/undo"
+      if vim.fn.isdirectory(undodir) == 0 then
+        vim.fn.mkdir(undodir, "p")
       end
+      vim.opt.undodir = undodir
+
+        local opt = vim.opt
+        local g = vim.g
+        local o = vim.o
+          -- Neovide
+        if g.neovide then
+          g.neovide_fullscreen = false
+          g.neovide_hide_mouse_when_typing = false
+          g.neovide_refresh_rate = 165
+          g.neovide_cursor_vfx_mode = "ripple"
+          g.neovide_cursor_animate_command_line = true
+          g.neovide_cursor_animate_in_insert_mode = true
+          g.neovide_cursor_vfx_particle_lifetime = 5.0
+          g.neovide_cursor_vfx_particle_density = 14.0
+          g.neovide_cursor_vfx_particle_speed = 12.0
+          g.neovide_transparency = 0.8
+
+          -- Neovide Fonts
+          o.guifont = "DepartureMono Nerd Font:h14:Medium:i"
+        end
     '';
   };
 }

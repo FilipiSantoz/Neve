@@ -1,6 +1,9 @@
 # Thanks for the keybinds primeagen and folke!
-{ lib, config, ... }:
 {
+  lib,
+  config,
+  ...
+}: {
   options = {
     keys.enable = lib.mkEnableOption "Enable keys module";
   };
@@ -8,58 +11,58 @@
     globals.mapleader = " ";
     keymaps = [
       # Disable arrow keys
-      {
-        mode = [
-          "n"
-          "i"
-        ];
-        key = "<Up>";
-        action = "<Nop>";
-        options = {
-          silent = true;
-          noremap = true;
-          desc = "Disable Up arrow key";
-        };
-      }
-      {
-        mode = [
-          "n"
-          "i"
-        ];
-        key = "<Down>";
-        action = "<Nop>";
-        options = {
-          silent = true;
-          noremap = true;
-          desc = "Disable Down arrow key";
-        };
-      }
-      {
-        mode = [
-          "n"
-          "i"
-        ];
-        key = "<Right>";
-        action = "<Nop>";
-        options = {
-          silent = true;
-          noremap = true;
-          desc = "Disable Right arrow key";
-        };
-      }
-      {
-        mode = [
-          "n"
-          "i"
-        ];
-        key = "<Left>";
-        action = "<Nop>";
-        options = {
-          silent = true;
-          noremap = true;
-          desc = "Disable Left arrow key";
-        };
-      }
+      # {
+      #   mode = [
+      #     "n"
+      #     "i"
+      #   ];
+      #   key = "<Up>";
+      #   action = "<Nop>";
+      #   options = {
+      #     silent = true;
+      #     noremap = true;
+      #     desc = "Disable Up arrow key";
+      #   };
+      # }
+      # {
+      #   mode = [
+      #     "n"
+      #     "i"
+      #   ];
+      #   key = "<Down>";
+      #   action = "<Nop>";
+      #   options = {
+      #     silent = true;
+      #     noremap = true;
+      #     desc = "Disable Down arrow key";
+      #   };
+      # }
+      # {
+      #   mode = [
+      #     "n"
+      #     "i"
+      #   ];
+      #   key = "<Right>";
+      #   action = "<Nop>";
+      #   options = {
+      #     silent = true;
+      #     noremap = true;
+      #     desc = "Disable Right arrow key";
+      #   };
+      # }
+      # {
+      #   mode = [
+      #     "n"
+      #     "i"
+      #   ];
+      #   key = "<Left>";
+      #   action = "<Nop>";
+      #   options = {
+      #     silent = true;
+      #     noremap = true;
+      #     desc = "Disable Left arrow key";
+      #   };
+      # }
       # Tabs
       {
         mode = "n";
@@ -162,25 +165,25 @@
         };
       }
 
-      # {
-      #   mode = "n";
-      #   key = "<leader>-";
-      #   action = "<C-W>s";
-      #   options = {
-      #     silent = true;
-      #     desc = "Split window below";
-      #   };
-      # }
+      {
+        mode = "n";
+        key = "<leader>-";
+        action = "<C-W>s";
+        options = {
+          silent = true;
+          desc = "Split window below";
+        };
+      }
 
-      # {
-      #   mode = "n";
-      #   key = "<leader>|";
-      #   action = "<C-W>v";
-      #   options = {
-      #     silent = true;
-      #     desc = "Split window right";
-      #   };
-      # }
+      {
+        mode = "n";
+        key = "<leader>|";
+        action = "<C-W>v";
+        options = {
+          silent = true;
+          desc = "Split window right";
+        };
+      }
 
       {
         mode = "n";

@@ -1,10 +1,8 @@
 {
   lib,
-  config,
   pkgs,
   ...
-}:
-{
+}: {
   extraPackages = with pkgs; [
     fd
     nixfmt
@@ -36,7 +34,7 @@
   colorschemes.enable = lib.mkDefault true;
   completion.enable = lib.mkDefault true;
   dap.enable = lib.mkDefault true;
-  filetrees.enable = lib.mkDefault false;
+  filetrees.enable = lib.mkDefault true;
   git.enable = lib.mkDefault true;
   keys.enable = true;
 

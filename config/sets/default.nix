@@ -2,10 +2,10 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   imports = [
     ./set.nix
+    ./autocmd.nix
   ];
 
   options = {

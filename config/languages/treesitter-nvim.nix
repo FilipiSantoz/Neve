@@ -25,6 +25,7 @@
           "luadoc"
           "luap"
           "nix"
+          "go"
           "rust"
           "java"
           "markdown"
@@ -112,7 +113,7 @@
     };
 
     plugins.treesitter-context = {
-      enable = true;
+      enable = false;
       # Attaches to already-loaded buffers during setup, so BufReadPost is
       # enough to cover the first buffer too.
       lazyLoad.settings.event = "BufReadPost";

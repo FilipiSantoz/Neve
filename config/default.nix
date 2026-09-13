@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   extraPackages = with pkgs; [
     fd
     nixfmt

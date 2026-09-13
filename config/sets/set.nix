@@ -65,7 +65,7 @@
       termguicolors = true;
 
       # Enable the sign column to prevent the screen from jumping
-      signcolumn = "yes";
+      # signcolumn = "yes";
 
       # Enable cursor line highlight
       cursorline = true; # Highlight the line where the cursor is located
@@ -81,7 +81,7 @@
       foldexpr = "v:lua.vim.treesitter.foldexpr()";
 
       # Always keep 8 lines above/below cursor unless at start/end of file
-      scrolloff = 8;
+      # scrolloff = 8;
 
       # Place a column line
       # colorcolumn = "80";

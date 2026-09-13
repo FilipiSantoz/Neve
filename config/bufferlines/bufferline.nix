@@ -35,7 +35,7 @@
           enable = true;
           settings = {
             options = {
-              separatorStyle = "thick"; # “slant”, “padded_slant”, “slope”, “padded_slope”, “thick”, “thin“
+              separatorStyle = "thin"; # “slant”, “padded_slant”, “slope”, “padded_slope”, “thick”, “thin“
               offsets = [
                 {
                   filetype = "neo-tree";

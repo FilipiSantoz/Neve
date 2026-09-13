@@ -61,6 +61,14 @@
             conflict = "";
           };
         };
+        window = {
+          position = "left";
+          width = 40;
+          mappingOptions = {
+            noremap = true;
+            nowait = true;
+          };
+        };
       };
     };
 

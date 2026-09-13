@@ -10,6 +10,7 @@
   config = lib.mkIf config.snacks.enable {
     plugins.snacks = {
       enable = true;
+      autoLoad = true;
       settings = {
         indent = {
           hl = "SnacksIndendt";
@@ -41,15 +42,25 @@
         scroll.enabled = true;
 
         notifier = {
-          # vim.log.levels.TRACE é uma expressão lua, não um valor nix -> __raw
-          level.__raw = "vim.log.levels.TRACE";
-          icons = {
-            error = " ";
-            warn = " ";
-            info = " ";
-            debug = " ";
-            trace = " ";
+          enabled = true;
+          width = {
+            min = 40;
+            max = 0.5;
           };
+          height = {
+            min = 20;
+            max = 0.07;
+          };
+          # vim.log.levels.TRACE é uma expressão lua, não um valor nix -> __raw
+          # level.__raw = "vim.log.levels.TRACE";
+          icons = {
+            error = " ";
+            warn = " ";
+            info = " ";
+            debug = " ";
+            trace = " ";
+          };
+          style = "compact";
         };
 
         lazygit = {

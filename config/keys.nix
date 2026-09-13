@@ -331,7 +331,7 @@
       {
         mode = "n";
         key = "<C-d>";
-        action = "<C-d>zz";
+        action = "<C-d>";
         options = {
           silent = true;
           desc = "Allow <C-d> and <C-u> to keep the cursor in the middle";
@@ -341,7 +341,7 @@
       {
         mode = "n";
         key = "<C-u>";
-        action = "<C-u>zz";
+        action = "<C-u>";
         options = {
           desc = "Allow C-d and C-u to keep the cursor in the middle";
         };

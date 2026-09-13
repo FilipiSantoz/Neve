@@ -2,8 +2,7 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   imports = [
     ./conform.nix
     ./fidget.nix
@@ -16,7 +15,7 @@
   };
   config = lib.mkIf config.lsp.enable {
     conform.enable = lib.mkDefault true;
-    fidget.enable = lib.mkDefault true;
+    fidget.enable = lib.mkDefault false;
     lsp-nvim.enable = lib.mkDefault true;
     trouble.enable = lib.mkDefault true;
   };

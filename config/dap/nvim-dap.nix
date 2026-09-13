@@ -1,5 +1,8 @@
-{ lib, config, ... }:
 {
+  lib,
+  config,
+  ...
+}: {
   options = {
     nvim-dap.enable = lib.mkEnableOption "Enable Debug Adapter Protocol module";
   };
@@ -82,11 +85,15 @@
         '';
         signs = {
           dapBreakpoint = {
-            text = "●";
+            text = "󰄛 ";
             texthl = "DapBreakpoint";
           };
+          dapStopped = {
+            text = "󰋇 ";
+            texthl = "DapStopped";
+          };
           dapBreakpointCondition = {
-            text = "●";
+            text = "󰄛 ";
             texthl = "DapBreakpointCondition";
           };
           dapLogPoint = {

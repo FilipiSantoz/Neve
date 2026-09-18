@@ -2,7 +2,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options = {
     set.enable = lib.mkEnableOption "Enable set module";
   };
@@ -84,7 +85,7 @@
       # scrolloff = 8;
 
       # Place a column line
-      colorcolumn = "120";
+      # colorcolumn = "120";
 
       # Reduce which-key timeout
       timeoutlen = 200;
@@ -105,7 +106,16 @@
 
       # Enable chars list
       list = true; # Show invisible characters (tabs, eol, ...)
-      # listchars = "eol:↲,tab:|->,lead:·,space: ,trail:•,extends:→,precedes:←,nbsp:␣";
+      listchars = {
+        eol = " ";
+        tab = " » ";
+        lead = "•";
+        space = " ";
+        trail = " ";
+        extends = "→";
+        precedes = "←";
+        nbsp = "␣";
+      };
 
       # More space in the neovim command line for displaying messages
       cmdheight = 2;

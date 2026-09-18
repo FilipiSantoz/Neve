@@ -114,7 +114,9 @@
           }
         ];
         win = {
-          border = "none";
+          border = "rounded";
+          title = true;
+          title_pos = "center";
           wo.winblend = 0;
         };
       };

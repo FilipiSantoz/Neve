@@ -2,13 +2,15 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   imports = [
     ./alpha.nix
     ./barbecue.nix
     ./dressing-nvim.nix
     ./indent-blankline.nix
     ./noice.nix
+    ./notify.nix
     ./nui.nix
     ./web-devicons.nix
   ];
@@ -22,6 +24,7 @@
     dressing-nvim.enable = lib.mkDefault false;
     indent-blankline.enable = lib.mkDefault false;
     noice.enable = lib.mkDefault false;
+    notify.enable = lib.mkDefault false;
     nui.enable = lib.mkDefault true;
     web-devicons.enable = lib.mkDefault true;
   };

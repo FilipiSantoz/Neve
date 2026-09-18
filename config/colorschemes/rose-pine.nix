@@ -10,7 +10,7 @@
         settings = {
           styles = {
             italic = true;
-            bold = true;
+            bold = false;
             transparency = false;
           };
         };

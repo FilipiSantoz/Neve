@@ -71,8 +71,7 @@
                 FloatTitle = { bg = "NONE", fg = "#ffffff" },
                 FloatBorder = { bg = "NONE", fg = "#87f6fd" },
                 SnacksPickerBorder = { bg = "None", fg = "#87f6fd" },
-                Directory = { fg = "#ceafff" },
-
+                Directory = { fg = "#8aadf5" },
               }
             end
           '';

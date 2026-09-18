@@ -1,4 +1,8 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  ...
+}:
 {
   options = {
     lualine.enable = lib.mkEnableOption "Enable lualine module";
@@ -7,98 +11,201 @@
     plugins.lualine = {
       enable = true;
       settings = {
-        alwaysDivideMiddle = true;
-        globalstatus = true;
-        ignoreFocus = [ "neo-tree" ];
-        extensions = [ "fzf" ];
+        iconsEnabled = true;
         theme = "auto";
-        componentSeparators = {
-          left = "|";
-          right = "|";
+        component_separators = { };
+        section_separators = { };
+        disabled_filetypes = {
+          statusline = [ "dashboard" ];
         };
-        sectionSeparators = {
-          left = "█"; # 
-          right = "█"; # 
-        };
+        globalstatus = true;
+
         sections = {
-          lualine_a = [ "mode" ];
-          lualine_b = [
-            "branch"
-            ""
-            "diff"
-            "diagnostics"
+          lualine_a = [
+            {
+              __unkeyed-1 = "mode";
+              fmt.__raw = "function(str) return str:sub(1, 1) end";
+              separator = {
+                left = "";
+                right = "";
+              };
+              padding = {
+                left = 2;
+                right = 2;
+              };
+            }
           ];
-          lualine_c = [ "filename" ];
-          lualine_x = [ "filetype" ];
-          lualine_y = [ "progress" ];
-          lualine_z = [ ''" " .. os.date("%R")'' ];
+
+          lualine_b = [
+            {
+              __unkeyed-1 = "branch";
+              separator = {
+                right = "";
+              };
+              icon = {
+                __unkeyed-1 = " ";
+                align = "right";
+                # color = {
+                #   fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').white";
+                #   gui = "bold";
+                # };
+              };
+              color = {
+                # bg = "NONE";
+                gui = "bold";
+              };
+
+            }
+            {
+              __unkeyed-1 = "filename";
+              file_status = true;
+              new_file_status = false;
+              path = 0;
+              shorting_target = 40;
+              symbols = {
+                modified = " ●";
+                readonly = " ";
+                unnamed = "[No name]";
+                newfile = "[New]";
+              };
+              color = {
+                fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').lavender";
+                bg = "NONE";
+                gui = "bold";
+              };
+            }
+          ];
+
+          lualine_c = [
+            {
+              __unkeyed-1 = "diff";
+              source.__raw = ''
+                function()
+                  local gitsigns = vim.b.gitsigns_status_dict
+                  if gitsigns then
+                    return {
+                      added = gitsigns.added,
+                      modified = gitsigns.changed,
+                      removed = gitsigns.removed,
+                    }
+                  end
+                end
+              '';
+              symbols = {
+                added = " ";
+                modified = " ";
+                removed = " ";
+              };
+              cond.__raw = "_G.lualine_hide_in_width";
+            }
+            {
+              __unkeyed-1.__raw = ''
+                function()
+                  if not package.loaded["dap"] then
+                    return ""
+                  end
+                  return require("dap").status()
+                end
+              '';
+              icon = " ";
+              color.fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').yellow";
+              cond.__raw = ''
+                function()
+                  return package.loaded["dap"] and require("dap").status() ~= ""
+                end
+              '';
+            }
+            {
+              __unkeyed-1 = "diagnostics";
+              sources = [ "nvim_diagnostic" ];
+              sections = [
+                "error"
+                "warn"
+                "info"
+                "hint"
+              ];
+              symbols = {
+                error = " ";
+                warn = " ";
+                info = " ";
+                hint = "󱠂";
+              };
+              cond.__raw = "_G.lualine_hide_in_width";
+            }
+          ];
+
+          lualine_x = [
+            {
+              __unkeyed-1 = "filesize";
+              icon = "󰙴";
+              color.fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').lavender";
+              padding = {
+                left = 1;
+                right = 1;
+              };
+              cond.__raw = "_G.lualine_hide_in_width";
+            }
+            {
+              __unkeyed-1 = "filetype";
+              colored = true;
+              icon_only = true;
+              cond.__raw = "_G.lualine_hide_in_width";
+            }
+          ];
+
+          lualine_y = [
+            {
+              __unkeyed-1.__raw = ''
+                function()
+                  local words = vim.fn.wordcount().words
+                  return string.format(" %d ", words)
+                end
+              '';
+              cond.__raw = ''
+                function()
+                  local ft = vim.bo.filetype
+                  return ft == "markdown" or ft == "text" or ft == "txt"
+                end
+              '';
+              color.fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').lavender";
+              padding = {
+                left = 1;
+                right = 1;
+              };
+            }
+          ];
+
+          lualine_z = [
+            {
+              __unkeyed-1.__raw = ''
+                function()
+                  local line = vim.fn.line(".")
+                  local lines = vim.fn.line("$")
+                  local col = vim.fn.virtcol(".")
+                  return string.format("%d/%d:%d", line, lines, col)
+                end
+              '';
+              icon = {
+                __unkeyed-1 = "";
+                gui = "bold";
+              };
+              color.gui = "bold";
+              cond.__raw = "_G.lualine_hide_in_width";
+              separator = {
+                left = "";
+                right = "";
+              };
+            }
+          ];
         };
       };
     };
-    extraConfigLua = ''
-      local function truncate_branch_name(branch)
-        if not branch or branch == "" then
-          return ""
-        end
-        local user, team, ticket_number = string.find(branch, "(%w+)%/(%w+)%-(%d+)%-")
-        if ticket_number then
-          return user .. "/" .. team .. "-" .. ticket_number
-        else
-          return branch
-        end
-      end
 
-      local function harpoon_component()
-        local ok, harpoon = pcall(require, "harpoon")
-        if not ok then
-          return ""
-        end
-        local list = harpoon:list()
-        local total_marks = list:length()
-        if total_marks == 0 then
-          return ""
-        end
-        local current_mark = "\226\128\148"
-        -- harpoon2 tracks current index via internal _index field (1-based)
-        local mark_idx = list._index
-        if mark_idx ~= nil then
-          current_mark = tostring(mark_idx)
-        end
-        return string.format("\239\177\133\133 %s/%d", current_mark, total_marks)
-      end
-
-      local function get_lsp_client(_)
-        local client_names = {}
-        local msg = "No Active Lsp"
-        local clients = vim.lsp.get_clients({ bufnr = 0 })
-        if next(clients) == nil then
-          return msg
-        end
-        for _, client in ipairs(clients) do
-          table.insert(client_names, client.name)
-        end
-        return #client_names == 0 and msg or table.concat(client_names, " | ")
-      end
-      local function wordcount()
-        return tostring(vim.fn.wordcount().words) .. " words"
-      end
-      local function readingtime()
-        return tostring(math.ceil(vim.fn.wordcount().words / 200.0)) .. " min"
-      end
-      local function is_markdown()
-        return vim.bo.filetype == "markdown" or vim.bo.filetype == "asciidoc"
-      end
-      local function navic()
-        return require("nvim-navic").get_location()
-      end
-      local function navic_is_available()
-        return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-      end
-      local cmd_mode = function()
-        return require("noice").api.status.mode.get()
-      end
-      local show_mode = function()
-        return package.loaded["noice"] and require("noice").api.status.mode.has() or ""
+    # única coisa que sobrevive do extraConfigLua original: a condição
+    # "hide_in_width", compartilhada entre vários componentes acima.
+    extraConfigLuaPre = ''
+      _G.lualine_hide_in_width = function()
+        return vim.o.columns > 100
       end
     '';
   };

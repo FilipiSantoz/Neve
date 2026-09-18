@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options = {
     keys.enable = lib.mkEnableOption "Enable keys module";
   };

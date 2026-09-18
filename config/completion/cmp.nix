@@ -7,7 +7,7 @@
     plugins = {
       cmp-nvim-lsp = {
         enable = true;
-        lazyLoad.settings.event = "InsertEnter";
+        # lazyLoad.settings.event = "InsertEnter";
       }; # lsp
       cmp-buffer = {
         enable = true;
@@ -27,9 +27,12 @@
       }; # snippets
       cmp = {
         enable = true;
-        autoEnableSources = false;
+        autoEnableSources = true;
         lazyLoad.settings = {
-          event = [ "InsertEnter" "CmdlineEnter" ];
+          event = [
+            "InsertEnter"
+            "CmdlineEnter"
+          ];
           before.__raw = "function() require('lz.n').trigger_load('luasnip') end";
         };
         luaConfig.pre = ''

@@ -12,7 +12,7 @@
       lintersByFt = {
         c = ["cpplint"];
         cpp = ["cpplint"];
-        go = ["golangci-lint"];
+        go = ["golangci_lint"];
         nix = ["statix"];
         lua = ["selene"];
         python = ["flake8"];

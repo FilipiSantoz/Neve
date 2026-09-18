@@ -7,11 +7,21 @@
   options = {
     snacks.enable = lib.mkEnableOption "Enable nvim-snacks modules";
   };
+
   config = lib.mkIf config.snacks.enable {
+    extraConfigLuaPre = ''
+      _G.start_time = vim.uv.hrtime()
+    '';
+
     plugins.snacks = {
       enable = true;
       autoLoad = true;
       settings = {
+        explorer = {
+          enabled = true; # change to false to use neo-tree insted snacks.explorer
+          replace_netrw = true;
+        };
+
         indent = {
           hl = "SnacksIndendt";
           indent = {
@@ -27,7 +37,6 @@
               corner_bottom = "╰";
             };
           };
-          # função lua -> __raw
           filter.__raw = ''
             function(buf)
               return vim.g.snacks_indent ~= false
@@ -51,8 +60,6 @@
             min = 20;
             max = 0.07;
           };
-          # vim.log.levels.TRACE é uma expressão lua, não um valor nix -> __raw
-          # level.__raw = "vim.log.levels.TRACE";
           icons = {
             error = " ";
             warn = " ";
@@ -95,8 +102,6 @@
 
         win = {
           input = {
-            # cada entrada é uma tabela lua "mista": { "close", mode = {...} }
-            # posição 1 (a ação) vira __unkeyed-1, o resto (mode) fica normal
             keys = {
               "<Esc>" = {
                 __unkeyed-1 = "close";
@@ -172,7 +177,6 @@
               relative = "cursor";
               title_pos = "left";
               keys = {
-                # { "<esc>", { "cmp_close", "cancel" }, mode = "i", expr = true }
                 i_esc = {
                   __unkeyed-1 = "<esc>";
                   __unkeyed-2 = [
@@ -344,44 +348,41 @@
               padding = 3;
             }
             {
-              # # { function() ... end } -> tabela com um único item posicional
-              # __unkeyed-1.__raw = ''
-              #   function()
-              #     local count = 0
-              #     local plugins = (vim.pack and vim.pack.get) and vim.pack.get() or {}
-              #     local total = #plugins
-              #     local loaded = 0
-              #
-              #     if vim.pack and vim.pack.get then
-              #       count = #vim.pack.get()
-              #     else
-              #       for _, p in ipairs(vim.opt.packpath:get()) do
-              #         count = count + #vim.fn.glob(p .. "/pack/*/start/*", false, true)
-              #         count = count + #vim.fn.glob(p .. "/pack/*/opt/*", false, true)
-              #       end
-              #     end
-              #     for _, plugin in ipairs(plugins) do
-              #       if plugin.active then
-              #         loaded = loaded + 1
-              #       end
-              #     end
-              #     local start_time = _G.start_time or vim.uv.hrtime()
-              #     local ms = (vim.uv.hrtime() - start_time) / 1e6
-              #
-              #     return {
-              #       align = "center",
-              #       text = {
-              #         { "󰒲 ", hl = "LineNr" },
-              #         { "Neovim loaded ", hl = "CursorLineNr" },
-              #         { tostring(loaded), hl = "Label" },
-              #         { "/", hl = "Comment" },
-              #         { tostring(total), hl = "Label" },
-              #         { " plugins in ", hl = "CursorLineNr" },
-              #         { string.format("%.0fms", ms), hl = "Label" },
-              #       },
-              #     }
-              #   end
-              # '';
+              __raw = ''
+
+
+                  function()
+                    local rtp = vim.opt.rtp:get()
+                    local total, loaded = 0, 0
+                    for _, root in ipairs(vim.opt.packpath:get()) do
+                      for _, kind in ipairs({ "start", "opt" }) do
+                        for _, dir in ipairs(vim.fn.glob(root .. "/pack/*/" .. kind .. "/*", false, true)) do
+                          total = total + 1
+                          if vim.tbl_contains(rtp, dir) then
+                            loaded = loaded + 1
+                          end
+                        end
+                      end
+                    end
+                    local start_time = _G.start_time or vim.uv.hrtime()
+                    local ms = (vim.uv.hrtime() - start_time) / 1e6
+
+                    return {
+                      align = "center",
+                      text = {
+                        { "󰒲 ", hl = "LineNr" },
+                        { "Neovim loaded ", hl = "CursorLineNr" },
+                        { tostring(loaded), hl = "Label" },
+                        { "/", hl = "Comment" },
+                        { tostring(total), hl = "Label" },
+                        { " plugins in ", hl = "CursorLineNr" },
+                        { string.format("%.0fms", ms), hl = "Label" },
+                      },
+                    }
+                end,
+
+
+              '';
             }
           ];
         };
@@ -389,6 +390,27 @@
     };
 
     keymaps = [
+      # Explorador de Arquivos do Snacks (substitui o Neo-tree)
+      {
+        mode = "n";
+        key = "<leader>e";
+        action.__raw = "function() Snacks.explorer() end";
+        options.desc = "File Explorer (Snacks)";
+      }
+      {
+        mode = "n";
+        key = "<leader>be";
+        action.__raw = "function() Snacks.picker.buffers() end";
+        options.desc = "Buffer Explorer";
+      }
+      {
+        mode = "n";
+        key = "<leader>ge";
+        action.__raw = "function() Snacks.picker.git_status() end";
+        options.desc = "Git Status Explorer";
+      }
+
+      # Notifier & Git
       {
         mode = "n";
         key = "<leader>un";
@@ -411,7 +433,7 @@
         mode = "n";
         key = "<leader>gs";
         action.__raw = "function() Snacks.picker.git_status() end";
-        options.desc = "Git Stash";
+        options.desc = "Git Status";
       }
       {
         mode = "n";
@@ -448,6 +470,12 @@
       }
       {
         mode = "n";
+        key = "<leader>ff";
+        action.__raw = "function() Snacks.picker.smart() end";
+        options.desc = "Smart Find Files";
+      }
+      {
+        mode = "n";
         key = "<leader>fc";
         action.__raw = "function() Snacks.picker.grep_buffers() end";
         options.desc = "Grep Open Buffers";
@@ -457,12 +485,6 @@
         key = "<leader>fl";
         action.__raw = "function() Snacks.picker.lines() end";
         options.desc = "Buffer Lines";
-      }
-      {
-        mode = "n";
-        key = "<C-'>";
-        action.__raw = "function() Snacks.terminal() end";
-        options.desc = "toggle terminal";
       }
     ];
   };

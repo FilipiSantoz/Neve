@@ -7,64 +7,78 @@
   options = {
     neo-tree.enable = lib.mkEnableOption "Enable neo-tree module";
   };
+
   config = lib.mkIf config.neo-tree.enable {
     plugins.neo-tree = {
       enable = true;
       settings = {
-        windbar = true;
-        contentLayout = "center";
-        truncation_character = "…";
-        separator = {
-          left = "▏";
-          right = "▕";
+        source_selector = {
+          winbar = true;
+          content_layout = "center";
+          truncation_character = "…";
+          separator = {
+            left = "▏";
+            right = "▕";
+          };
         };
-        enableDiagnostics = true;
-        enableGitStatus = true;
-        enableModifiedMarkers = true;
-        enableRefreshOnWrite = true;
-        closeIfLastWindow = true;
-        popupBorderStyle = "NC"; # Type: null or one of “NC”, “double”, “none”, “rounded”, “shadow”, “single”, “solid” or raw lua code
+        enable_diagnostics = true;
+        enable_git_status = true;
+        enable_modified_markers = true;
+        enable_refresh_on_write = true;
+        close_if_last_window = true;
+        popup_border_style = "NC";
         buffers = {
-          bindToCwd = false;
-          followCurrentFile = {
+          bind_to_cwd = false;
+          follow_current_file = {
             enabled = true;
           };
         };
-        indent = {
-          indentSize = 2;
-          padding = 2;
-          withMarkers = true;
-          indentMarker = "│";
-          lastIndentMarker = "╰";
-          expanderCollapsed = "";
-          expanderExpanded = "";
-        };
-        icon = {
-          folderClosed = "";
-          folderOpen = "";
-          folderEmpty = "󰜌";
-          folderEmptyOpen = "󰷏";
-          useFilteredColors = true;
-          selected = "󰐾";
-          default = "*";
-        };
-        git_status = {
-          symbols = {
-            added = "🞥";
-            modified = "";
-            deleted = "✖";
-            renamed = "󰁕";
-            untracked = "";
-            ignored = "";
-            unstaged = "🟒";
-            staged = "";
-            conflict = "";
+        filesystem = {
+          bind_to_cwd = false;
+          follow_current_file = {
+            enabled = true;
           };
         };
+
+        default_component_configs = {
+          indent = {
+            indent_size = 2;
+            padding = 2;
+            with_markers = true;
+            indent_marker = "│";
+            last_indent_marker = "╰";
+            with_expanders = false;
+            # expander_collapsed = "";
+            # expander_expanded = "";
+          };
+          icon = {
+            folder_closed = "";
+            folder_open = "";
+            folder_empty = "󰜌";
+            folder_empty_open = "󰷏";
+            use_filtered_colors = true;
+            selected = "󰐾";
+            default = "*";
+          };
+          git_status = {
+            symbols = {
+              added = "🞥";
+              modified = "";
+              deleted = "✖";
+              renamed = "󰁕";
+              untracked = "";
+              ignored = "";
+              unstaged = "🟒";
+              staged = "";
+              conflict = "";
+            };
+          };
+        };
+
         window = {
           position = "left";
           width = 40;
-          mappingOptions = {
+          mapping_options = {
             noremap = true;
             nowait = true;
           };

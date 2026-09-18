@@ -2,8 +2,7 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   options = {
     set.enable = lib.mkEnableOption "Enable set module";
   };
@@ -85,7 +84,7 @@
       # scrolloff = 8;
 
       # Place a column line
-      # colorcolumn = "80";
+      colorcolumn = "120";
 
       # Reduce which-key timeout
       timeoutlen = 200;

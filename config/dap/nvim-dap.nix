@@ -1,18 +1,18 @@
 {
   lib,
+  pkgs,
   config,
   ...
-}: {
+}:
+{
   options = {
     nvim-dap.enable = lib.mkEnableOption "Enable Debug Adapter Protocol module";
   };
   config = lib.mkIf config.nvim-dap.enable {
+
     plugins = {
       dap = {
         enable = true;
-        # Wave 3: dap loads on first use. Keymaps with `require('dap')` live in
-        # lazyLoad.settings.keys (raw callbacks); `<cmd>Dap*<CR>` keymaps and
-        # manual `:Dap*` commands are covered by the cmd triggers below.
         lazyLoad.settings = {
           cmd = [
             "DapToggleBreakpoint"
@@ -76,10 +76,10 @@
             }
           ];
         };
-        # dap-python's setup runs inside dap's config (extensionConfigLua) and
-        # dap-ui/dap-virtual-text register listeners on dap — load them with dap.
+        # dap-go precisa estar carregado junto com o dap; dap-ui/virtual-text
+        # já dependiam disso antes também.
         luaConfig.pre = ''
-          require('lz.n').trigger_load('nvim-dap-python')
+          require('lz.n').trigger_load('nvim-dap-go')
           require('lz.n').trigger_load('nvim-dap-ui')
           require('lz.n').trigger_load('nvim-dap-virtual-text')
         '';
@@ -101,6 +101,25 @@
             texthl = "DapLogPoint";
           };
         };
+
+        adapters = {
+          executables = {
+            lldb.command = lib.getExe' pkgs.lldb "lldb-vscode";
+          };
+          servers = {
+            codelldb = {
+              port = 13000;
+              executable = {
+                command = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
+                args = [
+                  "--port"
+                  "13000"
+                ];
+              };
+            };
+          };
+        };
+
         configurations = {
           java = [
             {
@@ -111,17 +130,32 @@
               port = 5005;
             }
           ];
+
+          rust = [
+            {
+              name = "Launch (CodeLLDB)";
+              type = "codelldb";
+              request = "launch";
+              program.__raw = ''
+                function()
+                  return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+                end
+              '';
+              cwd = "\${workspaceFolder}";
+              stopOnEntry = false;
+            }
+          ];
         };
       };
+
       dap-virtual-text = {
         enable = true;
-        # No trigger of its own: loaded via trigger_load from dap's luaConfig.pre.
         lazyLoad.settings.lazy = true;
       };
+
       dap-ui = {
         enable = true;
         lazyLoad.settings = {
-          # Official nixvim docs pattern: ensure nvim-dap is loaded first.
           before.__raw = "function() require('lz.n').trigger_load('nvim-dap') end";
           keys = [
             {
@@ -140,24 +174,87 @@
             }
           ];
         };
+        luaConfig.post = ''
+
+          -- Opens the UI when start/stop an debug session
+          local dap = require("dap")
+          local dapui = require("dapui")
+          dap.listeners.after.event_initialized["dapui_config"] = function()
+            dapui.open()
+          end
+          -- Close UI when end an debug session
+          dap.listeners.before.event_terminated["dapui_config"] = function()
+          	dapui.close()
+          end
+          dap.listeners.before.event_exited["dapui_config"] = function()
+          	dapui.close()
+          end
+
+        '';
+
         settings = {
-          floating.mappings = {
-            close = [
-              "<ESC>"
-              "q"
-            ];
+          floating = {
+            border = "rounded";
+            mappings = {
+              close = [
+                "<ESC>"
+                "q"
+              ];
+            };
+          };
+          layouts = [
+            {
+              elements = [
+                {
+                  id = "scopes";
+                  size = 0.32;
+                }
+                {
+                  id = "breakpoints";
+                  size = 0.21;
+                }
+                {
+                  id = "stacks";
+                  size = 0.21;
+                }
+                {
+                  id = "watches";
+                  size = 0.26;
+                }
+              ];
+              position = "right";
+              size = 50;
+            }
+            {
+              elements = [
+                {
+                  id = "repl";
+                  size = 0.4;
+                }
+                {
+                  id = "console";
+                  size = 0.4;
+                }
+              ];
+              position = "bottom";
+              size = 12;
+            }
+          ];
+        };
+      };
+
+      dap-go = {
+        enable = true;
+        lazyLoad.settings.lazy = true;
+        settings = {
+          delve = {
+            path = "dlv";
+            initialize_timeout_sec = 20;
           };
         };
       };
-      dap-python = {
-        enable = true;
-        # Setup is injected into dap's config (extensionConfigLua); only needs
-        # to be on the rtp when dap loads.
-        lazyLoad.settings.lazy = true;
-      };
     };
-    # `<cmd>Dap*<CR>` keymaps: safe eager keymaps (rule 3 exception) — the
-    # commands are lz.n cmd triggers on plugins.dap.
+
     keymaps = [
       {
         mode = "n";

@@ -69,6 +69,23 @@
           };
           style = "compact";
         };
+        styles = {
+          notification = {
+            wo = {
+              wrap = true;
+              linebreak = true;
+              breakindent = true;
+            };
+          };
+          terminal.keys.term_normal = false;
+          input = {
+            row = -3;
+            col = -5;
+            width = 32;
+            relative = "cursor";
+            title_pos = "left";
+          };
+        };
 
         lazygit = {
           win = {

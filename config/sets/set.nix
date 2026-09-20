@@ -108,7 +108,7 @@
       list = true; # Show invisible characters (tabs, eol, ...)
       listchars = {
         eol = " ";
-        tab = " » ";
+        tab = "→•";
         lead = "•";
         space = " ";
         trail = " ";

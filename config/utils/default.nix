@@ -2,11 +2,13 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   imports = [
     ./better-escape.nix
     ./cloak.nix
     ./colorizer.nix
+    ./grug-far.nix
     ./harpoon.nix
     ./markdown-preview.nix
     ./peek.nix
@@ -35,6 +37,7 @@
   config = lib.mkIf config.utils.enable {
     better-escape.enable = lib.mkDefault false;
     cloak.enable = lib.mkDefault false;
+    grug-far.enable = lib.mkDefault true;
     harpoon.enable = lib.mkDefault false;
     markdown-preview.enable = lib.mkDefault true;
     peek.enable = lib.mkDefault false;

@@ -15,7 +15,7 @@
         # format_after_save = {
         #   lsp_format = "fallback";
         # };
-        format_on_save = ''
+        format_on_save.__raw = ''
           function(bufnr)
             -- Disable with a global or buffer-local variable
             if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
@@ -65,6 +65,7 @@
             stop_after_first = true;
           };
           rust = [ "rustfmt" ];
+          go = [ "gofmt" ];
         };
       };
     };

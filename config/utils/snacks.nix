@@ -407,7 +407,6 @@
     };
 
     keymaps = [
-      # Explorador de Arquivos do Snacks (substitui o Neo-tree)
       {
         mode = "n";
         key = "<leader>e";
@@ -426,8 +425,6 @@
         action.__raw = "function() Snacks.picker.git_status() end";
         options.desc = "Git Status Explorer";
       }
-
-      # Notifier & Git
       {
         mode = "n";
         key = "<leader>un";
@@ -490,6 +487,12 @@
         key = "<leader>ff";
         action.__raw = "function() Snacks.picker.smart() end";
         options.desc = "Smart Find Files";
+      }
+      {
+        mode = "n";
+        key = "<leader>fg";
+        action.__raw = "function() Snacks.picker.grep() end";
+        options.desc = "Snacks Grep";
       }
       {
         mode = "n";

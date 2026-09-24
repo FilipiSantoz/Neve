@@ -3,8 +3,8 @@
   config,
   pkgs,
   ...
-}: {
-  # TODO: Refactor this as neotest is supported on nixvim now
+}:
+{
   options = {
     neotest.enable = lib.mkEnableOption "Enable neotest module";
   };
@@ -67,6 +67,7 @@
           python.enable = true;
           vitest.enable = true;
           plenary.enable = true;
+          rust.enable = true;
         };
         settings = {
           output = {
@@ -76,12 +77,30 @@
           summary = {
             enabled = true;
           };
+          # Go não usa o adapter tipado `adapters.go` (esse é o neotest-go, um
+          # plugin diferente). Registramos o neotest-golang manualmente, do
+          # mesmo jeito que o gerador interno do Nixvim faz para os adapters
+          # tipados — assim mantemos o `runner = "gotestsum"` que você já usava.
+          adapters = [
+            {
+              __raw = ''
+                require('neotest-golang')({
+                  runner = "gotestsum",
+                })
+              '';
+            }
+          ];
         };
       };
     };
     extraPlugins = with pkgs.vimPlugins; [
       FixCursorHold-nvim
       nvim-nio
+      neotest-golang
+    ];
+    extraPackages = with pkgs; [
+      gotestsum
+      cargo-nextest
     ];
   };
 }

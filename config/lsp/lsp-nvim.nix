@@ -112,15 +112,25 @@
 
           rust_analyzer = {
             enable = true;
-            installCargo = true;
-            installRustc = true;
+            installCargo = false;
+            installRustc = false;
             settings = {
               checkOnSave = true;
               check = {
                 command = "clippy";
+                allTargets = false;
               };
               procMacro = {
                 enable = true;
+              };
+              files = {
+                excludeDirs = [
+                  "target"
+                  "node_modules"
+                  "dist"
+                  "gen"
+                  ".git"
+                ];
               };
             };
           };

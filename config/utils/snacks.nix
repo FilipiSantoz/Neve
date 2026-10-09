@@ -118,6 +118,11 @@
             hidden = true;
             ignored = true;
           };
+          sources = {
+            explorer = {
+              ignored = true;
+            };
+          };
           buffers.layout = "select";
         };
 

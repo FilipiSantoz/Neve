@@ -3,8 +3,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   options = {
     neotest.enable = lib.mkEnableOption "Enable neotest module";
   };
@@ -77,10 +76,6 @@
           summary = {
             enabled = true;
           };
-          # Go não usa o adapter tipado `adapters.go` (esse é o neotest-go, um
-          # plugin diferente). Registramos o neotest-golang manualmente, do
-          # mesmo jeito que o gerador interno do Nixvim faz para os adapters
-          # tipados — assim mantemos o `runner = "gotestsum"` que você já usava.
           adapters = [
             {
               __raw = ''

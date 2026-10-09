@@ -200,9 +200,6 @@
         };
       };
     };
-
-    # única coisa que sobrevive do extraConfigLua original: a condição
-    # "hide_in_width", compartilhada entre vários componentes acima.
     extraConfigLuaPre = ''
       _G.lualine_hide_in_width = function()
         return vim.o.columns > 100

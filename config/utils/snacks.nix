@@ -20,6 +20,7 @@
         explorer = {
           enabled = true; # change to false to use neo-tree insted snacks.explorer
           replace_netrw = true;
+          ignored = true;
         };
 
         indent = {
@@ -113,7 +114,10 @@
         words.enabled = true;
 
         picker = {
-          files.hidden = true;
+          files = {
+            hidden = true;
+            ignored = true;
+          };
           buffers.layout = "select";
         };
 

@@ -14,6 +14,7 @@
         c = [ "cpplint" ];
         cpp = [ "cpplint" ];
         go = [ "golangcilint" ];
+        rust = [ "clippy" ];
         nix = [ "statix" ];
         lua = [ "selene" ];
         python = [ "flake8" ];

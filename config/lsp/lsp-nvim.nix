@@ -1,11 +1,14 @@
 {
   lib,
   config,
+  # pkgs,
   ...
-}: {
+}:
+{
   options = {
     lsp-nvim.enable = lib.mkEnableOption "Enable lsp-nvim module";
   };
+
   config = lib.mkIf config.lsp-nvim.enable {
     plugins = {
       lsp = {
@@ -24,7 +27,7 @@
                     callSnippet = "Replace";
                   };
                   diagnostics = {
-                    globals = ["vim"];
+                    globals = [ "vim" ];
                   };
 
                   telemetry = {
@@ -43,6 +46,11 @@
           nixd = {
             enable = true;
           };
+
+          vue_ls = {
+            enable = true;
+          };
+
           ts_ls = {
             enable = true;
             autostart = true;
@@ -51,8 +59,18 @@
               "javascriptreact"
               "typescript"
               "typescriptreact"
+              "vue"
             ];
             extraOptions = {
+              # init_options = {
+              #   plugins = [
+              #     {
+              #       name = "@vue/typescript-plugin";
+              #       location = "${pkgs.vue-language-server}/lib/node_modules/@vue/language-server";
+              #       languages = [ "vue" ];
+              #     }
+              #   ];
+              # };
               settings = {
                 javascript = {
                   inlayHints = {
@@ -81,6 +99,7 @@
               };
             };
           };
+
           eslint = {
             enable = true;
           };
@@ -100,12 +119,6 @@
               check = {
                 command = "clippy";
               };
-              # inlayHints = {
-              #   enable = true;
-              #   showParameterNames = true;
-              #   parameterHintsPrefix = "<- ";
-              #   otherHintsPrefix = "=> ";
-              # };
               procMacro = {
                 enable = true;
               };
@@ -153,6 +166,7 @@
             };
           };
         };
+
         keymaps = {
           silent = true;
           lspBuf = {
@@ -212,12 +226,16 @@
               if client.server_capabilities.inlayHintProvider then
                 vim.lsp.inlay_hint.enable(false)
               end
+              if client.name ~= "vue_ls" and client.server_capabilities.documentSymbolProvider then
+                require("nvim-navic").attach(client, args.buf)
+               end
               vim.bo[args.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
             end,
           })
         '';
       };
     };
+
     extraConfigLua = ''
       require("lspconfig.ui.windows").default_options = { border = "rounded" }
 

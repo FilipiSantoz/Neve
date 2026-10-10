@@ -1,7 +1,7 @@
 {
   lib,
   config,
-  # pkgs,
+  pkgs,
   ...
 }:
 {
@@ -62,15 +62,16 @@
               "vue"
             ];
             extraOptions = {
-              # init_options = {
-              #   plugins = [
-              #     {
-              #       name = "@vue/typescript-plugin";
-              #       location = "${pkgs.vue-language-server}/lib/node_modules/@vue/language-server";
-              #       languages = [ "vue" ];
-              #     }
-              #   ];
-              # };
+              init_options.plugins = lib.mkForce [
+                {
+                  name = "@vue/typescript-plugin";
+                  # This path is for my vue lsp, maybe yours is different
+                  # if this path is not correct the vue lsp will not work.
+                  location = "${pkgs.vue-language-server}/lib/language-tools/packages/language-server";
+                  languages = [ "vue" ];
+                }
+              ];
+
               settings = {
                 javascript = {
                   inlayHints = {
@@ -236,9 +237,6 @@
               if client.server_capabilities.inlayHintProvider then
                 vim.lsp.inlay_hint.enable(false)
               end
-              if client.name ~= "vue_ls" and client.server_capabilities.documentSymbolProvider then
-                require("nvim-navic").attach(client, args.buf)
-               end
               vim.bo[args.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
             end,
           })

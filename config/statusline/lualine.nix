@@ -45,13 +45,8 @@
               icon = {
                 __unkeyed-1 = " ";
                 align = "right";
-                # color = {
-                #   fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').white";
-                #   gui = "bold";
-                # };
               };
               color = {
-                # bg = "NONE";
                 gui = "bold";
               };
 
@@ -73,6 +68,7 @@
                 bg = "NONE";
                 gui = "bold";
               };
+              cond.__raw = "_G.lualine_hide_in_width";
             }
           ];
 
@@ -96,7 +92,6 @@
                 modified = " ";
                 removed = " ";
               };
-              cond.__raw = "_G.lualine_hide_in_width";
             }
             {
               __unkeyed-1.__raw = ''
@@ -138,12 +133,10 @@
             {
               __unkeyed-1 = "filesize";
               icon = "󰙴";
-              color.fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').lavender";
               padding = {
                 left = 1;
                 right = 1;
               };
-              cond.__raw = "_G.lualine_hide_in_width";
             }
             {
               __unkeyed-1 = "filetype";
@@ -190,7 +183,6 @@
                 gui = "bold";
               };
               color.gui = "bold";
-              cond.__raw = "_G.lualine_hide_in_width";
               separator = {
                 left = "";
                 right = "";
@@ -198,8 +190,42 @@
             }
           ];
         };
+        # Customize your own colors on nvim modes
+        options.theme = {
+          __raw = ''
+            (function()
+              local p = require("catppuccin.palettes").get_palette("macchiato")
+              local bg = p.mantle
+              local fg = p.text
+              local inner = p.surface0
+
+              local function mode(color)
+                return {
+                  a = { bg = color, fg = bg, gui = "bold" },
+                  b = { bg = bg, fg = color },
+                  c = { fg = fg },
+                }
+              end
+
+              return {
+                normal = mode(p.blue),
+                insert = mode("#9F84DC"),
+                visual = mode(p.mauve),
+                replace = mode(p.red),
+                command = mode(p.peach),
+                terminal = mode(p.teal),
+                inactive = {
+                  a = { bg = bg, fg = p.overlay1 },
+                  b = { bg = bg, fg = p.overlay1 },
+                  c = { bg = bg, fg = p.overlay1 },
+                },
+              }
+            end)()
+          '';
+        };
       };
     };
+
     extraConfigLuaPre = ''
       _G.lualine_hide_in_width = function()
         return vim.o.columns > 100

@@ -22,7 +22,7 @@
         javascriptreact = [ "eslint_d" ];
         typescript = [ "eslint_d" ];
         typescriptreact = [ "eslint_d" ];
-        json = [ "jsonlint" ];
+        # json = [ "jsonlint" ];
         java = [ "checkstyle" ];
         haskell = [ "hlint" ];
         bash = [ "shellcheck" ];

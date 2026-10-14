@@ -110,6 +110,9 @@
           ruff = {
             enable = true;
           };
+          jsonls = {
+            enable = true;
+          };
 
           rust_analyzer = {
             enable = true;

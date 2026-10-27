@@ -7,6 +7,7 @@
   imports = [
     ./base16.nix
     ./catppuccin.nix
+    ./nightfox.nix
     ./rose-pine.nix
   ];
 
@@ -15,7 +16,8 @@
   };
   config = lib.mkIf config.colorschemes.enable {
     base16.enable = lib.mkDefault false;
-    catppuccin.enable = lib.mkDefault true;
+    catppuccin.enable = lib.mkDefault false;
+    nightfox.enable = lib.mkDefault true;
     rose-pine.enable = lib.mkDefault false;
   };
 }

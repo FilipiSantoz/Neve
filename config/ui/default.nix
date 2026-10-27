@@ -8,6 +8,7 @@
     ./alpha.nix
     ./barbecue.nix
     ./dressing-nvim.nix
+    ./incline.nix
     ./indent-blankline.nix
     ./noice.nix
     ./notify.nix
@@ -23,11 +24,12 @@
     alpha.enable = lib.mkDefault false;
     barbecue.enable = lib.mkDefault false;
     dressing-nvim.enable = lib.mkDefault false;
+    incline.enable = lib.mkDefault true;
     indent-blankline.enable = lib.mkDefault false;
     noice.enable = lib.mkDefault false;
     notify.enable = lib.mkDefault false;
     nui.enable = lib.mkDefault true;
     web-devicons.enable = lib.mkDefault true;
-    winbar.enable = lib.mkDefault true;
+    winbar.enable = lib.mkDefault false;
   };
 }

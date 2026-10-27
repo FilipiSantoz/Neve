@@ -34,8 +34,79 @@
         bufferline = {
           enable = true;
           settings = {
+            highlights =
+              let
+                activeTabBg = "#b095e6";
+                activeTabFg = "#1d2837";
+                fillBg = "#1e2030";
+                modFgSel = "#87f6fd";
+                modFg = "#b0e8ff";
+                modFgVis = "#b0e8ff";
+                normalBg = "#26253c";
+                activeBfFg = "#ecf3f9";
+
+              in
+              {
+                fill = {
+                  fg = "NONE";
+                  bg = fillBg;
+                };
+                modified = {
+                  fg = modFg;
+                  bg = normalBg;
+                };
+                modified_selected = {
+                  fg = modFgSel;
+                  bg = normalBg;
+                };
+                modified_visible = {
+                  fg = modFgVis;
+                  bg = normalBg;
+                };
+                buffer_selected = {
+                  fg = activeBfFg;
+                  bg = normalBg;
+                };
+                separator_visible = {
+                  fg = "NONE";
+                  bg = fillBg;
+                };
+
+                # Most right tabs
+                tab_selected = {
+                  fg = activeTabFg;
+                  bg = activeTabBg;
+                };
+                tab_separator = {
+                  fg = fillBg;
+                  bg = normalBg;
+                };
+                tab_separator_selected = {
+                  fg = fillBg;
+                  bg = activeTabBg;
+                };
+              };
             options = {
-              separatorStyle = "thin"; # “slant”, “padded_slant”, “slope”, “padded_slope”, “thick”, “thin“
+              show_buffer_icons = false;
+              buffer_close_icon = "✘";
+              show_close_icon = false;
+              show_tab_indicators = true;
+              truncate_names = true;
+              separator_style = "thin";
+              tab_size = 10;
+              max_name_length = 14;
+              max_prefix_length = 12;
+              # left_trunc_marker = "";
+              # right_trunc_marker = "";
+              # name_formatter = ''
+              #   function(buf)
+              #     if buf.bufnr == vim.api.nvim_get_current_buf() then
+              #       return "󰅱"
+              #     else
+              #       return ""
+              #     end
+              #   end
+              # '';
               offsets = [
                 {
                   filetype = "neo-tree";
@@ -46,6 +117,10 @@
               ];
             };
           };
+        };
+        # https://github.com/tiagovla/scope.nvim
+        scope = {
+          enable = true;
         };
       };
       keymaps = lib.mkIf cfg.keymaps.enable (

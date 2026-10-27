@@ -60,11 +60,11 @@
               symbols = {
                 modified = " ●";
                 readonly = " ";
-                unnamed = "[No name]";
+                unnamed = "[T-T]";
                 newfile = "[New]";
               };
               color = {
-                fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').lavender";
+                fg = "#b7bdf8";
                 bg = "NONE";
                 gui = "bold";
               };
@@ -103,7 +103,7 @@
                 end
               '';
               icon = " ";
-              color.fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').yellow";
+              color.fg = "#eed49f";
               cond.__raw = ''
                 function()
                   return package.loaded["dap"] and require("dap").status() ~= ""
@@ -160,7 +160,7 @@
                   return ft == "markdown" or ft == "text" or ft == "txt"
                 end
               '';
-              color.fg.__raw = "require('catppuccin.palettes').get_palette('macchiato').lavender";
+              color.fg = "#b7bdf8";
               padding = {
                 left = 1;
                 right = 1;
@@ -190,14 +190,14 @@
             }
           ];
         };
-        # Customize your own colors on nvim modes
+        # Customize colors on nvim modes
         options.theme = {
           __raw = ''
             (function()
-              local p = require("catppuccin.palettes").get_palette("macchiato")
-              local bg = p.mantle
-              local fg = p.text
-              local inner = p.surface0
+              local bg = '#1e2030'
+              local fg = '#cad3f5'
+              local inner = '#363a4f'
+              local overlay = '#8087a2'
 
               local function mode(color)
                 return {
@@ -208,16 +208,16 @@
               end
 
               return {
-                normal = mode(p.blue),
+                normal = mode("#8aadf4"),
                 insert = mode("#9F84DC"),
-                visual = mode(p.mauve),
-                replace = mode(p.red),
-                command = mode(p.peach),
-                terminal = mode(p.teal),
+                visual = mode("#c6a0f6"),
+                replace = mode("#ed8796"),
+                command = mode("#f5a97f"),
+                terminal = mode("#8bd5ca"),
                 inactive = {
-                  a = { bg = bg, fg = p.overlay1 },
-                  b = { bg = bg, fg = p.overlay1 },
-                  c = { bg = bg, fg = p.overlay1 },
+                  a = { bg = bg, fg = overlay  },
+                  b = { bg = bg, fg = overlay },
+                  c = { bg = bg, fg = overlay },
                 },
               }
             end)()

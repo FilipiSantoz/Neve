@@ -12,8 +12,13 @@
           auto_attach = true;
           preference = [
             "rust_analyzer"
+            "gopls"
+            "tsserver"
           ];
         };
+        depth_limit = 8;
+        depth_limit_indicator = "..";
+        highlight = true;
       };
     };
 

@@ -2,7 +2,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options = {
     colorizer.enable = lib.mkEnableOption "Enable nvim-colorizer module";
   };
@@ -11,5 +12,17 @@
       enable = true;
       lazyLoad.settings.event = "DeferredUIEnter";
     };
+    # Continue to display the color
+    # when change tabs
+    autoCmd = [
+      {
+        event = [
+          "TabEnter"
+          "BufWinEnter"
+        ];
+        pattern = "*";
+        command = "silent! ColorizerAttachToBuffer";
+      }
+    ];
   };
 }

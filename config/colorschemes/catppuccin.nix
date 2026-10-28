@@ -47,6 +47,11 @@
               };
             };
           };
+          color_overrides = {
+            all = {
+              green = "#94e871";
+            };
+          };
           custom_highlights.__raw = ''
             function(colors)
               return {

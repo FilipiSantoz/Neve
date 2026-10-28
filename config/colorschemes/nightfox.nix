@@ -7,7 +7,7 @@
     colorschemes = {
       nightfox = {
         enable = true;
-        flavor = "duskfox";
+        flavor = "nightfox";
         settings = {
           options = {
             terminal_colors = true;
@@ -24,9 +24,10 @@
           palettes = {
             all = {
               green = "#94e871";
-              cyan = "#52bbDE";
+              cyan = "#87f6fd";
               blue = "#8aadf5";
               magenta = "#d29ff5";
+              orange = "#f09924";
             };
           };
           groups = {
@@ -38,10 +39,10 @@
                 fg = "#85858f";
               };
               Boolean = {
-                fg = "#e0a760";
+                fg = "palette.orange";
               };
               Function = {
-                fg = "#ceafff";
+                fg = "palette.magenta";
               };
               Conditional = {
                 fg = "#5f5fc2";
@@ -53,9 +54,6 @@
               CursorLineNr = {
                 fg = "#ebd3f8";
               };
-              BufferLineSeparator = {
-                fg = "#000000";
-              };
               NormalFloat = {
                 bg = "NONE";
               };
@@ -65,20 +63,36 @@
               };
               FloatBorder = {
                 bg = "NONE";
-                fg = "#87f6fd";
-              };
-              SnacksPickerBorder = {
-                bg = "NONE";
-                fg = "#87f6fd";
+                fg = "palette.cyan";
               };
               Directory = {
-                fg = "#8aadf5";
+                fg = "palette.blue";
               };
               StatusLine = {
-                bg = "#232236";
+                bg = "NONE";
               };
-              StatusLineNC = {
-                bg = "#232236";
+              # StatusLineNC = {
+              #   bg = "#202723";
+              # };
+              SnacksPickerBorder = {
+                bg = "NONE";
+                fg = "palette.cyan";
+              };
+              SnacksPickerGitStatusStaged = {
+                fg = "palette.cyan";
+              };
+              Label = {
+                fg = "palette.blue";
+              };
+              MatchParen = {
+                fg = "palette.orange";
+                bg = "#373a5d";
+              };
+              Constant = {
+                fg = "#1fde8f";
+              };
+              Type = {
+                fg = "#d42865";
               };
             };
           };

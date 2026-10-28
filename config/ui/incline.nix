@@ -15,7 +15,6 @@
     ];
 
     extraConfigLua = ''
-      local helpers = require 'incline.helpers'
       local devicons = require 'nvim-web-devicons'
       require('incline').setup {
         render = function(props)
@@ -27,29 +26,33 @@
           local modified = vim.bo[props.buf].modified
 
           local function get_git_diff()
-            local icons = { added = '', changed = '󰏭',  removed = '' }
+            local icons = { added = '', changed = '󰏭', removed = '' }
             local signs = vim.b[props.buf].gitsigns_status_dict
             local labels = {}
+
             if signs == nil then
               return labels
             end
-            for name, icon in pairs(icons) do
+
+            for _, name in ipairs({ 'added', 'changed', 'removed' }) do
               if tonumber(signs[name]) and signs[name] > 0 then
-                table.insert(labels, { icon .. ' ', signs[name] .. ' ', group = 'Diff' .. name })
+                table.insert(labels, { icons[name] .. ' ', signs[name] .. ' ', group = 'Diff' .. name })
               end
             end
+
             if #labels > 0 then
               table.insert(labels, { '┊' })
             end
+
             return labels
           end
 
           return {
             { get_git_diff() },
-            {' ' .. (ft_icon or ' ') .. ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color), ' ' } or "",
+            {' ' .. (ft_icon or ' ') .. ' ', guifg = ft_color } or "",
             {' ' .. filename .. ' ' },
             modified and { '● ' } or "",
-            -- guibg = '#AA99C7',
+            guibg = '#2f263b',
           }
         end,
       }

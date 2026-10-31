@@ -64,7 +64,7 @@
                 newfile = "[New]";
               };
               color = {
-                fg = "#b7bdf8";
+                fg = "#e6f2fc";
                 bg = "NONE";
                 gui = "bold";
               };

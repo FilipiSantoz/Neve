@@ -30,9 +30,13 @@
           };
           scope = {
             enabled = false;
+            cursor = true;
+            only_current = true;
+            char = "┊";
           };
           chunk = {
-            enabled = true;
+            enabled = false;
+            only_current = false;
             char = {
               corner_top = "╭";
               corner_bottom = "╰";
@@ -262,7 +266,7 @@
                   }
                   {
                     __unkeyed-1 = "n";
-                    hl = "Constant";
+                    hl = "Type";
                   }
                 ];
                 key = "n";
@@ -281,7 +285,7 @@
                   }
                   {
                     __unkeyed-1 = "f";
-                    hl = "Constant";
+                    hl = "Type";
                   }
                 ];
                 action.__raw = "function() Snacks.picker.files() end";
@@ -300,7 +304,7 @@
                   }
                   {
                     __unkeyed-1 = "g";
-                    hl = "Constant";
+                    hl = "Type";
                   }
                 ];
                 action.__raw = "function() Snacks.picker.grep() end";
@@ -319,7 +323,7 @@
                   }
                   {
                     __unkeyed-1 = "r";
-                    hl = "Constant";
+                    hl = "Type";
                   }
                 ];
                 action.__raw = "function() Snacks.picker.recent() end";
@@ -338,7 +342,7 @@
                   }
                   {
                     __unkeyed-1 = "p";
-                    hl = "Constant";
+                    hl = "Type";
                   }
                 ];
                 action.__raw = "function() Snacks.picker.projects() end";
@@ -357,7 +361,7 @@
                   }
                   {
                     __unkeyed-1 = "q";
-                    hl = "Constant";
+                    hl = "Type";
                   }
                 ];
                 action = ":qa";

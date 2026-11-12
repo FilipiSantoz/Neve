@@ -53,7 +53,7 @@
     plenary.enable = lib.mkDefault true;
     project-nvim.enable = lib.mkDefault true;
     snacks.enable = lib.mkDefault true;
-    tmux-navigator.enable = lib.mkDefault true;
+    tmux-navigator.enable = lib.mkDefault false;
     todo-comments.enable = lib.mkDefault false;
     undotree.enable = lib.mkDefault true;
     wakatime.enable = lib.mkDefault false;

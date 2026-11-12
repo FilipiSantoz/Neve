@@ -53,7 +53,7 @@
         };
 
         scope.enabled = true;
-        # scroll.enabled = true;
+        scroll.enabled = true;
 
         notifier = {
           enabled = true;
@@ -476,13 +476,13 @@
       }
       {
         mode = "n";
-        key = "j]";
+        key = "<leader>j]";
         action.__raw = "function() Snacks.words.jump(vim.v.count1) end";
         options.desc = "Next Reference";
       }
       {
         mode = "n";
-        key = "j[";
+        key = "<leader>j[";
         action.__raw = "function() Snacks.words.jump(-vim.v.count1) end";
         options.desc = "Prev Reference";
       }

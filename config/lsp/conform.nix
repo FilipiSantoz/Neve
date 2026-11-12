@@ -66,6 +66,8 @@
           };
           rust = [ "rustfmt" ];
           go = [ "gofmt" ];
+          c = [ "clang-format" ];
+          cpp = [ "clang-format" ];
         };
       };
     };

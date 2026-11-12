@@ -11,8 +11,8 @@
     plugins.lint = {
       enable = true;
       lintersByFt = {
-        c = [ "cpplint" ];
-        cpp = [ "cpplint" ];
+        c = [ "clangtidy" ];
+        cpp = [ "clangtidy" ];
         go = [ "golangcilint" ];
         rust = [ "clippy" ];
         nix = [ "statix" ];

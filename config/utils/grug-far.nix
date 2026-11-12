@@ -31,13 +31,13 @@
     keymaps = [
       {
         mode = "n";
-        key = "<leader>gs";
+        key = "<leader>sr";
         action.__raw = "function() require('grug-far').open() end";
         options.desc = "Search and Replace (Grug-far)";
       }
       {
         mode = "n";
-        key = "<leader>gc";
+        key = "<leader>sc";
         action.__raw = "function() require('grug-far').open({ prefills = { paths = vim.fn.expand('%') } }) end";
         options = {
           silent = true;

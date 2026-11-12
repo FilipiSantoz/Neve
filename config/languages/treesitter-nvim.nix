@@ -16,6 +16,7 @@
         ensure_installed = [
           "bash"
           "c"
+          "cpp"
           "html"
           "css"
           "javascript"

@@ -53,7 +53,7 @@
         };
 
         scope.enabled = true;
-        scroll.enabled = true;
+        # scroll.enabled = true;
 
         notifier = {
           enabled = true;
@@ -476,13 +476,13 @@
       }
       {
         mode = "n";
-        key = "]]";
+        key = "j]";
         action.__raw = "function() Snacks.words.jump(vim.v.count1) end";
         options.desc = "Next Reference";
       }
       {
         mode = "n";
-        key = "[[";
+        key = "j[";
         action.__raw = "function() Snacks.words.jump(-vim.v.count1) end";
         options.desc = "Prev Reference";
       }
@@ -520,5 +520,34 @@
         options.desc = "Buffer Lines";
       }
     ];
+
+    extraConfigLua = ''
+      Snacks.toggle.line_number():map("<leader>ul")
+      Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+      Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+      Snacks.toggle.inlay_hints():map("<leader>uh")
+
+      Snacks.toggle.new({
+        id = "format_on_save",
+        name = "Format on Save (Global)",
+        get = function()
+          return not vim.g.disable_autoformat
+        end,
+        set = function(state)
+          vim.g.disable_autoformat = not state
+        end,
+      }):map("<leader>uf")
+
+      Snacks.toggle.new({
+        id = "format_on_save_buf",
+        name = "Format on Save (Buffer)",
+        get = function()
+          return not vim.b.disable_autoformat
+        end,
+        set = function(state)
+          vim.b.disable_autoformat = not state
+        end,
+      }):map("<leader>uF")
+    '';
   };
 }

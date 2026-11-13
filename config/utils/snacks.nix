@@ -53,7 +53,7 @@
         };
 
         scope.enabled = true;
-        scroll.enabled = true;
+        # scroll.enabled = true;
 
         notifier = {
           enabled = true;
@@ -497,15 +497,27 @@
       }
       {
         mode = "n";
-        key = "<leader>ff";
+        key = "<leader>fs";
         action.__raw = "function() Snacks.picker.smart() end";
         options.desc = "Smart Find Files";
       }
       {
         mode = "n";
-        key = "<leader>fg";
+        key = "<leader>ff";
+        action.__raw = "function() Snacks.picker.files() end";
+        options.desc = "Find files local";
+      }
+      {
+        mode = "n";
+        key = "<leader>/";
         action.__raw = "function() Snacks.picker.grep() end";
         options.desc = "Snacks Grep";
+      }
+      {
+        mode = "n";
+        key = "<leader>fg";
+        action.__raw = "function() Snacks.picker.git_files() end";
+        options.desc = "Find Git Files";
       }
       {
         mode = "n";
